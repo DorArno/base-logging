@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.einwin.mdm.logging.provider.mapper.BusinessLogMapper">
+	
+	<resultMap id="BaseResultMap" type="com.einwin.mdm.logging.api.model.BusinessLog">
+		<id property="id" jdbcType="VARCHAR" column="Id" />
+		<result property="dataId" jdbcType="VARCHAR" column="DataId" />
+		<result property="flowFlag" jdbcType="INTEGER" column="FlowFlag" />
+		<result property="sourceSystemId" jdbcType="VARCHAR" column="SourceSystemId" />
+		<result property="destSystemId" jdbcType="VARCHAR" column="DestSystemId" />
+		<result property="logType" jdbcType="INTEGER" column="LogType" />
+		<result property="dataType" jdbcType="INTEGER" column="DataType" />
+		<result property="content" jdbcType="VARCHAR" column="Content" />
+		<result property="errorMsg" jdbcType="VARCHAR" column="ErrorMsg" />
+		<result property="status" jdbcType="VARCHAR" column="Status" />
+		<result property="createdOn" jdbcType="TIMESTAMP" column="CreatedOn" />
+		<result property="createdBy" jdbcType="VARCHAR" column="CreatedBy" />
+		<result property="modifiedOn" jdbcType="TIMESTAMP" column="ModifiedOn" />
+		<result property="modifiedBy" jdbcType="VARCHAR" column="ModifiedBy" />
+		<result property="isDeleted" jdbcType="INTEGER" column="IsDeleted" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+        BusinessLog
+    </sql>
+    
+    <sql id="Base_Column_List">
+       Id
+		, DataId
+		, FlowFlag
+		, SourceSystemId
+		, DestSystemId
+		, LogType
+		, DataType
+		, Content
+		, ErrorMsg
+		, Status
+		, CreatedOn
+		, CreatedBy
+		, ModifiedOn
+		, ModifiedBy
+		, IsDeleted
+    </sql>
+
+	<insert id="insert">
+		insert into BusinessLog (
+		Id
+		, DataId
+		, FlowFlag
+		, SourceSystemId
+		, DestSystemId
+		, LogType
+		, DataType
+		, Content
+		, ErrorMsg
+		, Status
+		, CreatedOn
+		, CreatedBy
+		, ModifiedOn
+		, ModifiedBy
+		, IsDeleted
+
+		) values (
+		#{id}
+		, #{dataId}
+		, #{flowFlag}
+		, #{sourceSystemId}
+		, #{destSystemId}
+		, #{logType}
+		, #{dataType}
+		, #{content}
+		, #{errorMsg}
+		, #{status}
+		, #{createdOn}
+		, #{createdBy}
+		, #{modifiedOn}
+		, #{modifiedBy}
+		, #{isDeleted}
+
+		)
+	</insert>
+
+	<update id="update">
+		update
+		BusinessLog
+		<set>
+			<if test="dataId != null and dataId != ''">DataId =
+				#{dataId},
+			</if>
+			<if test="flowFlag != null">FlowFlag =
+				#{flowFlag},
+			</if>
+			<if test="sourceSystemId != null and sourceSystemId != ''">SourceSystemId =
+				#{sourceSystemId},
+			</if>
+			<if test="destSystemId != null and destSystemId != ''">DestSystemId =
+				#{destSystemId},
+			</if>
+			<if test="logType != null">LogType =
+				#{logType},
+			</if>
+			<if test="dataType != null">DataType =
+				#{dataType},
+			</if>
+			<if test="content != null and content != ''">Content =
+				#{content},
+			</if>
+			<if test="errorMsg != null and errorMsg != ''">ErrorMsg =
+				#{errorMsg},
+			</if>
+			<if test="status != null and status != ''">Status =
+				#{status},
+			</if>
+			<if test="createdOn != null">CreatedOn =
+				#{createdOn},
+			</if>
+			<if test="createdBy != null and createdBy != ''">CreatedBy =
+				#{createdBy},
+			</if>
+			<if test="modifiedOn != null">ModifiedOn =
+				#{modifiedOn},
+			</if>
+			<if test="modifiedBy != null and modifiedBy != ''">ModifiedBy =
+				#{modifiedBy},
+			</if>
+			<if test="isDeleted != null">IsDeleted =
+				#{isDeleted},
+			</if>
+		</set>
+		where
+		Id = #{id}
+	</update>
+	<update id="updateBySysCodeData">
+		update
+		BusinessLog
+		<set>
+			<if test="status != null and status != ''">Status =
+				#{status}
+			</if>
+		</set>
+		where
+		DataId = #{dataId} and  DestSystemId = #{destSystemId} and CreatedOn = #{createdOn}
+	</update>
+	<update id="updateStatusById">
+		update
+		BusinessLog
+		<set>
+			<if test="status != null and status != ''">Status =
+				#{status},
+			</if>
+		</set>
+		where
+		Id = #{id}
+	</update>
+	<select id="getById" resultMap="BaseResultMap">
+		select
+		Id
+		, DataId
+		, FlowFlag
+		, SourceSystemId
+		, DestSystemId
+		, LogType
+		, DataType
+		, Content
+		, ErrorMsg
+		, Status
+		, CreatedOn
+		, CreatedBy
+		, ModifiedOn
+		, ModifiedBy
+		, IsDeleted
+		from
+		BusinessLog
+		where
+		Id = #{id}
+	</select>
+
+	<delete id="deleteById">
+		update
+		BusinessLog
+		set
+		IsDeleted = '1'
+		where
+		Id = #{id}
+	</delete>
+	
+</mapper>

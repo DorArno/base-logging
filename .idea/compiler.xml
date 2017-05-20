@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="base-logging-api" />
+        <module name="base-logging-client" />
+        <module name="base-logging-provider" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="base-logging" target="1.8" />
+      <module name="base-logging-api" target="1.8" />
+      <module name="base-logging-client" target="1.8" />
+      <module name="base-logging-provider" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

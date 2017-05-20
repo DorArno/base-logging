@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.einwin.mdm.logging.provider.mapper.SystemAccessLogWriteMapper">
+
+	<resultMap id="BaseResultMap" type="com.einwin.mdm.logging.api.model.SystemAccessLog">
+		<id property="id" jdbcType="VARCHAR" column="Id"/>
+	</resultMap>
+	
+	<sql id="BaseTable">
+        SystemAccessLog
+    </sql>
+    
+    <sql id="Base_Column_List">
+    	Id,SystemId,SysCode,ServiceUrl,ServiceId,ResponseMsg,RequestMsg,CostTime,ErrorMsg,CreatedOn,CreatedBy
+    </sql>
+    <!-- 新增接口访问日志 -->
+    <insert id="insert">
+        INSERT INTO SystemAccessLog
+        (
+        	Id,SystemId,SysCode,ServiceUrl,ServiceId,ResponseMsg,RequestMsg,CostTime,ErrorMsg,CreatedOn,CreatedBy
+        )
+        VALUES
+         (
+            #{id},#{systemId},#{sysCode},#{serviceUrl},#{serviceId},#{responseMsg},#{requestMsg},#{costTime},#{errorMsg},now(),#{createdBy}
+         )
+    </insert>
+   
+</mapper>

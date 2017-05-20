@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.einwin.mdm.logging.provider.mapper.OperationLogWriteMapper">
+
+	<resultMap id="BaseResultMap" type="com.einwin.mdm.logging.api.model.OperationLog">
+		<id property="id" jdbcType="VARCHAR" column="Id"/>
+		<result property="dataId" jdbcType="VARCHAR" column="DataId" />
+		<result property="dataType" jdbcType="INTEGER" column="DataType" />
+		<result property="content" jdbcType="VARCHAR" column="Content" />
+		<result property="createdBy" jdbcType="VARCHAR" column="CreatedBy" />
+		<result property="createdOn" jdbcType="TIMESTAMP" column="CreatedOn" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+        OperationLog
+    </sql>
+    
+    <sql id="Base_Column_List">
+     Id
+		, DataId
+		, DataType
+		, Content
+		, CreatedBy
+		, CreatedOn
+		, FlowFlag
+		, SysCode
+    </sql>
+
+	<insert id="insert">
+		insert into OperationLog (
+		Id
+		, DataId
+		, DataType
+		, Content
+		, CreatedBy
+		, CreatedOn
+		, FlowFlag
+		, SysCode
+		) values (
+		#{id}
+		, #{dataId}
+		, #{dataType}
+		, #{content}
+		, #{createdBy}
+		, #{createdOn}
+		, #{flowFlag}
+		, #{sysCode}
+		)
+	</insert>
+
+	<update id="update">
+		update
+		OperationLog
+		<set>
+			<if test="dataId != null and dataId != ''">DataId =
+				#{dataId},
+			</if>
+			<if test="dataType != null">DataType =
+				#{dataType},
+			</if>
+			<if test="content != null and content != ''">Content =
+				#{content},
+			</if>
+			<if test="createdBy != null and createdBy != ''">CreatedBy =
+				#{createdBy},
+			</if>
+			<if test="createdOn != null">CreatedOn =
+				#{createdOn},
+			</if>
+		</set>
+		where
+		Id = #{id}
+	</update>
+
+	<select id="getById" resultMap="BaseResultMap">
+		select
+		Id
+		, DataId
+		, DataType
+		, Content
+		, CreatedBy
+		, CreatedOn
+		from
+		OperationLog
+		where
+		Id = #{id}
+	</select>
+
+	<delete id="deleteById">
+		update
+		OperationLog
+		set
+		IsDeleted = '1'
+		where
+		Id = #{id}
+	</delete>
+
+
+	
+<!--
+	<select id="queryPageList" parameterType="map" resultMap="OperationLog">
+		select
+		OperationLog.Id
+		, OperationLog.DataId
+		, OperationLog.DataType
+		, OperationLog.Content
+		, (select Account from UserBasicsInfo where UserBasicsInfo.Id = OperationLog.CreatedBy) AS CreatedBy
+		, OperationLog.CreatedOn
+		, OperationLog.SysCode
+		,OperationLog.FlowFlag
+		from
+		OperationLog	
+		<where>
+			<if test="dataId != null and dataId != ''">and OperationLog.DataId = #{dataId}</if>
+			<if test="content != null and content != ''">and OperationLog.Content LIKE CONCAT('%',#{content},'%')</if>
+			<if test="dataType != null and dataType != '' and dataType != '-1'">and OperationLog.dataType = #{dataType}</if>
+			<if test="createdBy != null and createdBy != ''">and UserBasicsInfo.Account = #{createdBy}</if>
+		</where>
+		order by OperationLog.CreatedOn DESC
+	</select>
+	-->	
+	
+
+	<select id="queryPageList" parameterType="map" resultMap="BaseResultMap">
+		select
+		OperationLog.Id
+		, OperationLog.DataId
+		, OperationLog.DataType
+		, OperationLog.Content
+		, UserBasicsInfo.Account AS CreatedBy
+		, OperationLog.CreatedOn
+		, OperationLog.SysCode
+		,OperationLog.FlowFlag
+		from
+		OperationLog
+		left join UserBasicsInfo on UserBasicsInfo.Id = OperationLog.CreatedBy
+		<where>
+			<if test="dataId != null and dataId != ''">and OperationLog.DataId = #{dataId}</if>
+			<if test="content != null and content != ''">and OperationLog.Content LIKE CONCAT('%',#{content},'%')</if>
+			<if test="dataType != null and dataType != '' and dataType != '-1'">and OperationLog.dataType = #{dataType}</if>
+			<if test="createdBy != null and createdBy != ''">and UserBasicsInfo.Account = #{createdBy}</if>
+			<if test="beginDate != null and beginDate != ''"><![CDATA[and OperationLog.createdOn >= #{beginDate}]]></if>
+			<if test="endDate != null and endDate != ''"><![CDATA[and OperationLog.createdOn <= #{endDate}]]></if>
+		</where>
+		order by OperationLog.CreatedOn DESC
+	</select>
+	
+</mapper>
